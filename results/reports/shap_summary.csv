@@ -1,0 +1,6 @@
+Metric,Value
+Selected Threshold,0.25
+SHAP Base Value,-0.7111964557796417
+SHAP Base Value Scale,Log-Odds / Linear Output Scale
+Test Samples,154
+Top Feature,Glucose

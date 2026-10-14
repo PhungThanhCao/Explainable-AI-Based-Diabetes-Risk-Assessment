@@ -1,0 +1,6 @@
+Risk_Probability,Threshold,Risk_Classification,Feature,Value,SHAP_Value,Impact
+0.6321597077631346,0.25,Higher Risk,Glucose,159.0,1.378969150237073,Increases Risk
+0.6321597077631346,0.25,Higher Risk,BMI,27.4,-0.572819084737539,Decreases Risk
+0.6321597077631346,0.25,Higher Risk,Pregnancies,7.0,0.3066577649186065,Increases Risk
+0.6321597077631346,0.25,Higher Risk,Insulin,0.0,0.1320785434972828,Increases Risk
+0.6321597077631346,0.25,Higher Risk,DiabetesPedigreeFunction,0.294,-0.10652727686109859,Decreases Risk
