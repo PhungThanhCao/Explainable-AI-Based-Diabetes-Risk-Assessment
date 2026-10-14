@@ -46,13 +46,13 @@ Enter the eight clinical features and the app returns the estimated probability,
 Launch the app:
 
 ```bash
-python app/gradio_app.py        # → http://127.0.0.1:7860
+python app/gradio_app.py       
 ```
 
 ### REST API (FastAPI)
 
 ```bash
-python -m uvicorn app.api:app --reload      # → http://127.0.0.1:8000/docs
+python -m uvicorn app.api:app      
 ```
 
 ---
@@ -90,7 +90,7 @@ flowchart LR
 | Gradient Boosting | 0.8191 | 0.0183 |
 | Decision Tree | 0.7683 | 0.0289 |
 
-![Model comparison](results/figures/00_model_comparison.png)
+The comparison chart (`results/figures/00_model_comparison.png`) shows the mean cross-validated ROC-AUC of the four models side by side. Logistic Regression has the highest score, followed closely by Random Forest and Gradient Boosting, while Decision Tree is clearly the lowest. Logistic Regression also has a small standard deviation across folds, which indicates stable performance.
 
 Logistic Regression achieves the highest cross-validated ROC-AUC and is the most transparent baseline for SHAP analysis.
 
@@ -124,7 +124,7 @@ Thresholds from 0.20 to 0.60 were compared. The selection rule requires **Recall
 | True positives | 27 | **47** | +20 |
 | **False negatives** | 27 | **7** | **−20** |
 
-![Confusion matrices at 0.50 and 0.25](results/figures/14_threshold_confusion_matrices.png)
+**Confusion matrices at 0.50 and 0.25** (`14_threshold_confusion_matrices.png`): the figure places the two confusion matrices side by side for the 154 test samples (100 negative, 54 positive). At the default threshold of 0.50, the model finds 27 of the 54 positive cases and misses the other 27 (false negatives). At the selected threshold of 0.25, it finds 47 positive cases and misses only 7. The cost of this change is more false alarms: the number of false positives rises, which is why precision drops slightly from 0.6000 to 0.5732.
 
 ![Threshold analysis](results/figures/08_threshold_analysis.png)
 
@@ -167,16 +167,12 @@ The waterfall plot below explains one prediction, the sample patient from the de
 
 ## 🔎 Exploratory Data Analysis
 
-<table>
-  <tr>
-    <td align="center"><b>Outcome distribution</b><br><img src="results/figures/01_outcome_distribution.png" alt="Outcome distribution"></td>
-    <td align="center"><b>Correlation matrix</b><br><img src="results/figures/03_correlation_matrix.png" alt="Correlation matrix"></td>
-  </tr>
-  <tr>
-    <td align="center"><b>Feature distributions</b><br><img src="results/figures/02_feature_distributions.png" alt="Feature distributions"></td>
-    <td align="center"><b>Key features by outcome</b><br><img src="results/figures/04_key_features_vs_outcome.png" alt="Key features by outcome"></td>
-  </tr>
-</table>
+The EDA step (`python src/eda.py`) produces four figures in `results/figures/`. They are described below.
+
+- **Outcome distribution** (`01_outcome_distribution.png`): a count plot of the target variable. The classes are imbalanced, with 500 non-diabetic samples (about 65%) versus 268 diabetic samples (about 35%). This imbalance is why stratified splitting, ROC-AUC, PR-AUC, and threshold tuning are used instead of accuracy alone.
+- **Correlation matrix** (`03_correlation_matrix.png`): a heatmap of pairwise correlations between the eight features and the outcome. Glucose shows the strongest relationship with the outcome, followed by BMI, Age, and Pregnancies. Among the features themselves, Age and Pregnancies are moderately correlated, as are BMI and SkinThickness, and Glucose and Insulin. No pair is so strongly correlated that it blocks the use of Logistic Regression.
+- **Feature distributions** (`02_feature_distributions.png`): histograms of each feature after cleaning. Several features, such as Pregnancies, Age, Insulin, and DiabetesPedigreeFunction, are right-skewed, while Glucose, BloodPressure, and BMI are closer to bell-shaped. After median imputation, some features show a visible spike at their median value, which comes from the filled-in zeros.
+- **Key features by outcome** (`04_key_features_vs_outcome.png`): box plots (or similar group comparisons) of the most informative features split by outcome. Diabetic cases tend to have higher Glucose and BMI, and also higher Age and Pregnancies, than non-diabetic cases. The distributions still overlap, so no single feature separates the two groups perfectly. This agrees with the SHAP ranking above.
 
 ---
 
@@ -213,8 +209,8 @@ python src/make_demo_figures.py       # 12_shap_local_explanation.png, 14_thresh
 Then launch an interface:
 
 ```bash
-python app/gradio_app.py                      # Web UI   → http://127.0.0.1:7860
-python -m uvicorn app.api:app --reload        # REST API → http://127.0.0.1:8000/docs
+python app/gradio_app.py                      
+python -m uvicorn app.api:app     
 ```
 
 > Steps 1–5 must run first. The apps need `models/best_model.pkl` and `results/reports/selected_threshold.csv`.
@@ -264,4 +260,3 @@ Python · Pandas · NumPy · scikit-learn · Matplotlib · Seaborn · SHAP · Jo
 ## ⚠️ Disclaimer
 
 This is a student and educational machine learning project. It is not a clinically validated diagnostic system. Probabilities and risk labels are statistical outputs, not medical diagnoses. Consult qualified healthcare professionals for medical assessment.
-

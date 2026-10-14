@@ -1,12 +1,2 @@
-__pycache__/
-*.pyc
-venv/
-.venv/
+node_modules/
 .env
-.vscode/
-.idea/
-.ipynb_checkpoints/
-data/diabetes.csv
-data/diabetes_clean.csv
-data/diabetes.csv
-data/diabetes_clean.csv
