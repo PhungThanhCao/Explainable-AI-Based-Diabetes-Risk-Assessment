@@ -6,3 +6,7 @@ venv/
 .vscode/
 .idea/
 .ipynb_checkpoints/
+data/diabetes.csv
+data/diabetes_clean.csv
+data/diabetes.csv
+data/diabetes_clean.csv
